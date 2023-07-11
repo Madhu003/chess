@@ -10,15 +10,19 @@ export default function Home() {
   const [matrix, setMatrix] = useState(fullMatrix);
 
   useEffect(() => {
-    matrix[0] = [
-      ...constatns.STARTINGPOSITIONS.BLACK.map((token: string) => ({ token })),
-    ];
-    matrix[1] = matrix[1].map(() => ({ token: constatns.BLACK.PAWN }));
+    matrix[0] = [...constatns.STARTINGPOSITIONS.BLACK];
+    matrix[1] = matrix[1].map(() => ({
+      unicode: constatns.BLACK.PAWN,
+      name: constatns.PAWN,
+      type: constatns.TYPE.BLACK,
+    }));
 
-    matrix[6] = matrix[6].map(() => ({ token: constatns.WHITE.PAWN }));
-    matrix[7] = [
-      ...constatns.STARTINGPOSITIONS.WHITE.map((token: string) => ({ token })),
-    ];
+    matrix[6] = matrix[6].map(() => ({
+      unicode: constatns.BLACK.PAWN,
+      name: constatns.PAWN,
+      type: constatns.TYPE.WHITE,
+    }));
+    matrix[7] = [...constatns.STARTINGPOSITIONS.WHITE];
 
     console.log(matrix);
     setMatrix([...matrix]);
@@ -50,7 +54,7 @@ export default function Home() {
                 >
                   <p
                     className="m-0 p-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                    dangerouslySetInnerHTML={{ __html: cell.token || "" }}
+                    dangerouslySetInnerHTML={{ __html: cell.unicode || "" }}
                   ></p>
                 </td>
               ))}

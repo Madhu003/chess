@@ -28,25 +28,25 @@ const constatns: any = {
 };
 constatns.STARTINGPOSITIONS = {
   WHITE: [
-    constatns.WHITE.ROOK,
-    constatns.WHITE.KNIGHT,
-    constatns.WHITE.BISHOP,
-    constatns.WHITE.QUEEN,
-    constatns.WHITE.KING,
-    constatns.WHITE.BISHOP,
-    constatns.WHITE.KNIGHT,
-    constatns.WHITE.ROOK,
-  ],
+    { unicode: constatns.WHITE.ROOK, name: constatns.ROOK },
+    { unicode: constatns.WHITE.KNIGHT, name: constatns.KNIGHT },
+    { unicode: constatns.WHITE.BISHOP, name: constatns.BISHOP },
+    { unicode: constatns.WHITE.QUEEN, name: constatns.QUEEN },
+    { unicode: constatns.WHITE.KING, name: constatns.KING },
+    { unicode: constatns.WHITE.BISHOP, name: constatns.BISHOP },
+    { unicode: constatns.WHITE.KNIGHT, name: constatns.KNIGHT },
+    { unicode: constatns.WHITE.ROOK, name: constatns.ROOK },
+  ].map((item: any) => ({ ...item, type: constatns.TYPE.WHITE })),
   BLACK: [
-    constatns.BLACK.ROOK,
-    constatns.BLACK.KNIGHT,
-    constatns.BLACK.BISHOP,
-    constatns.BLACK.KING,
-    constatns.BLACK.QUEEN,
-    constatns.BLACK.BISHOP,
-    constatns.BLACK.KNIGHT,
-    constatns.BLACK.ROOK,
-  ],
+    { unicode: constatns.BLACK.ROOK, name: constatns.ROOK },
+    { unicode: constatns.BLACK.KNIGHT, name: constatns.KNIGHT },
+    { unicode: constatns.BLACK.BISHOP, name: constatns.BISHOP },
+    { unicode: constatns.BLACK.KING, name: constatns.KING },
+    { unicode: constatns.BLACK.QUEEN, name: constatns.QUEEN },
+    { unicode: constatns.BLACK.BISHOP, name: constatns.BISHOP },
+    { unicode: constatns.BLACK.KNIGHT, name: constatns.KNIGHT },
+    { unicode: constatns.BLACK.ROOK, name: constatns.ROOK },
+  ].map((item: any) => ({ ...item, type: constatns.TYPE.BLACK })),
 };
 
 export default constatns;
