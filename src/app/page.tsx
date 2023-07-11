@@ -2,7 +2,9 @@
 import { useEffect, useState } from "react";
 import constatns from "./constants";
 
-const fullMatrix: any = new Array(8).fill("").map(() => new Array(8).fill({}));
+const fullMatrix: any = new Array(8)
+  .fill("")
+  .map(() => new Array(8).fill("").map(() => ({})));
 
 export default function Home() {
   const [matrix, setMatrix] = useState(fullMatrix);
@@ -23,13 +25,11 @@ export default function Home() {
   }, []);
 
   const cellClickHandler = (i: number, j: number) => {
-    matrix.forEach((row: any) => {
-      row.forEach((cell: any) => {
-        cell.selected = false;
+    matrix.forEach((row: any, iIndex: number) => {
+      row.forEach((cell: any, jIndex: number) => {
+        cell.selected = iIndex == i && jIndex == j;
       });
     });
-
-    matrix[i][j].selected = true;
     setMatrix([...matrix]);
   };
 
@@ -45,7 +45,7 @@ export default function Home() {
                   style={{ fontSize: "44px", fontWeight: "600" }}
                   className={`border border-slate-300 cursor-pointer p-12 relative shadow-inner  ${
                     (i + j) % 2 == 0 ? "bg-slate-white" : "bg-slate-500"
-                  } ${cell.selected && "selected-cell"}`}
+                  } ${cell.selected ? "selected-cell" : ""}`}
                   onClick={() => cellClickHandler(i, j)}
                 >
                   <p

@@ -1,4 +1,14 @@
 const constatns: any = {
+  KING: "king",
+  ROOK: "rook",
+  KNIGHT: "knight",
+  QUEEN: "queen",
+  BISHOP: "bishop",
+  PAWN: "pawn",
+  TYPE: {
+    WHITE: "white",
+    BLACK: "black",
+  },
   WHITE: {
     KING: "&#9812;",
     ROOK: "&#9814;",
