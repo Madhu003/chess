@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { getAcccesiblePathForToken } from "../utils";
 import constatns from "./constants";
 
 const fullMatrix: any = new Array(8)
@@ -34,12 +35,25 @@ export default function Home() {
         cell.selected = iIndex == i && jIndex == j;
       });
     });
+
+    const paths = getAcccesiblePathForToken(
+      matrix[i][j].name,
+      matrix[i][j].type,
+      i,
+      j
+    );
+    paths.forEach((coordinates) => {
+      coordinates.forEach((coordinate: [number, number]) => {
+        const [x, y] = coordinate;
+        if (matrix[x][y]) matrix[x][y].selected = true;
+      });
+    });
     setMatrix([...matrix]);
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <table className="border-collapse border border-slate-400">
+      <table className="border-collapse border border-slate-400 board">
         <tbody>
           {matrix.map((row: any, i: number) => (
             <tr key={i}>
