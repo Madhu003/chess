@@ -86,52 +86,33 @@ export const getAcccesiblePathForToken = (
     case constatns.ROOK:
       return getAccesiblePathForRock(name, x, y);
     case constatns.KNIGHT:
-      let topLeft: any = [],
-        topRight: any = [],
-        bottomLeft: any = [],
-        bottomRight: any = [];
+      const knightResults = [];
 
-      //top
-      const top = [x - 2, y];
-      if (top[0] - 1 >= LOWER_LIMIT) {
-        topLeft.push([top[0], top[1] + 1]);
-      }
+      // top -left
+      if (x - 2 >= LOWER_LIMIT && y - 1 >= LOWER_LIMIT)
+        knightResults.push([x - 2, y - 1]);
+      if (x - 1 >= LOWER_LIMIT && y - 2 >= LOWER_LIMIT)
+        knightResults.push([x - 1, y - 2]);
 
-      if (top[0] + 1 <= HIGHER_LIMIT) {
-        topRight.push([top[0], top[1] + 1]);
-      }
+      // top -right
+      if (x - 2 >= LOWER_LIMIT && y + 1 <= HIGHER_LIMIT)
+        knightResults.push([x - 2, y + 1]);
+      if (x - 1 >= LOWER_LIMIT && y + 2 <= HIGHER_LIMIT)
+        knightResults.push([x - 1, y + 2]);
 
-      // bottom
-      const bottom = [x - 2, y];
-      if (bottom[0] - 1 >= LOWER_LIMIT) {
-        bottomLeft.push([bottom[0], bottom[1] + 1]);
-      }
+      // bottom-left
+      if (x + 1 <= HIGHER_LIMIT && y - 2 >= LOWER_LIMIT)
+        knightResults.push([x + 1, y - 2]);
+      if (x + 2 <= HIGHER_LIMIT && y - 1 >= LOWER_LIMIT)
+        knightResults.push([x + 2, y - 1]);
 
-      if (bottom[0] + 1 <= HIGHER_LIMIT) {
-        bottomRight.push([bottom[0], bottom[1] + 1]);
-      }
+      // bottom-right
+      if (x + 1 <= HIGHER_LIMIT && y + 2 <= HIGHER_LIMIT)
+        knightResults.push([x + 1, y + 2]);
+      if (x + 2 <= HIGHER_LIMIT && y + 1 <= HIGHER_LIMIT)
+        knightResults.push([x + 2, y + 1]);
 
-      // left
-      const left = [x, y - 2];
-      if (left[0] - 1 >= LOWER_LIMIT) {
-        topLeft.push([left[1] - 1, left[1]]);
-      }
-
-      if (left[0] + 1 <= HIGHER_LIMIT) {
-        bottomRight.push([left[0] + 1, left[1]]);
-      }
-
-      // right
-      const right = [x, y + 2];
-      if (right[0] - 1 >= LOWER_LIMIT) {
-        topRight.push([right[1] - 1, right[1]]);
-      }
-
-      if (right[0] + 1 <= HIGHER_LIMIT) {
-        bottomRight.push([right[0] + 1, right[1]]);
-      }
-
-      return [topLeft, topRight, bottomLeft, bottomRight];
+      return [knightResults];
     case constatns.QUEEN:
       return [
         ...getAccesiblePathForBishop(name, x, y),
@@ -140,7 +121,6 @@ export const getAcccesiblePathForToken = (
     case constatns.BISHOP:
       return getAccesiblePathForBishop(name, x, y);
     case constatns.PAWN:
-      debugger;
       const results = [];
       if (type == constatns.TYPE.WHITE) {
         if (x - 1 >= LOWER_LIMIT) {

@@ -45,7 +45,7 @@ export default function Home() {
     paths.forEach((coordinates) => {
       coordinates.forEach((coordinate: [number, number]) => {
         const [x, y] = coordinate;
-        if (matrix[x][y]) matrix[x][y].selected = true;
+        matrix[x][y].selected = true;
       });
     });
     setMatrix([...matrix]);
