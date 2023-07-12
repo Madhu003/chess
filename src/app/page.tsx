@@ -19,7 +19,7 @@ export default function Home() {
     }));
 
     matrix[6] = matrix[6].map(() => ({
-      unicode: constatns.BLACK.PAWN,
+      unicode: constatns.WHITE.PAWN,
       name: constatns.PAWN,
       type: constatns.TYPE.WHITE,
     }));
@@ -33,6 +33,7 @@ export default function Home() {
     matrix.forEach((row: any, iIndex: number) => {
       row.forEach((cell: any, jIndex: number) => {
         cell.selected = iIndex == i && jIndex == j;
+        cell.accessible = false;
       });
     });
 
@@ -45,7 +46,7 @@ export default function Home() {
     paths.forEach((coordinates) => {
       coordinates.forEach((coordinate: [number, number]) => {
         const [x, y] = coordinate;
-        matrix[x][y].selected = true;
+        matrix[x][y].accessible = true;
       });
     });
     setMatrix([...matrix]);
@@ -63,7 +64,7 @@ export default function Home() {
                   style={{ fontSize: "44px", fontWeight: "600" }}
                   className={`border border-slate-300 cursor-pointer p-12 relative shadow-inner  ${
                     (i + j) % 2 == 0 ? "bg-slate-white" : "bg-slate-500"
-                  } ${cell.selected ? "selected-cell" : ""}`}
+                  } ${cell.selected || cell.accessible ? "selected-cell" : ""}`}
                   onClick={() => cellClickHandler(i, j)}
                 >
                   <p
