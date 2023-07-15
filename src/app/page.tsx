@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getAcccesiblePathForToken } from "../utils";
 import constatns from "./constants";
 
@@ -9,6 +9,8 @@ const fullMatrix: any = new Array(8)
 
 export default function Home() {
   const [matrix, setMatrix] = useState(fullMatrix);
+  const [chance, setChance] = useState<string>(constatns.TYPE.BLACK);
+  const [pieceSelected, setPieceSelected] = useState<any>([]);
 
   useEffect(() => {
     matrix[0] = [...constatns.STARTINGPOSITIONS.BLACK];
@@ -29,26 +31,65 @@ export default function Home() {
     setMatrix([...matrix]);
   }, []);
 
-  const cellClickHandler = (i: number, j: number) => {
-    matrix.forEach((row: any, iIndex: number) => {
-      row.forEach((cell: any, jIndex: number) => {
-        cell.selected = iIndex == i && jIndex == j;
+  useEffect(() => {
+    console.log(chance);
+  }, [chance]);
+
+  const showAccessiblePath = (i: number, j: number) => {
+    const cell = matrix[i][j];
+
+    if (cell.type == chance) {
+      cell.selected = true;
+
+      const paths = getAcccesiblePathForToken(
+        matrix[i][j].name,
+        matrix[i][j].type,
+        i,
+        j
+      );
+
+      paths.forEach((coordinates) => {
+        coordinates.forEach((coordinate: [number, number]) => {
+          const [x, y] = coordinate;
+          matrix[x][y].accessible = true;
+        });
+      });
+    }
+  };
+
+  const clearSelection = () => {
+    matrix.forEach((row: any) => {
+      row.forEach((cell: any) => {
+        cell.selected = false;
         cell.accessible = false;
       });
     });
+  };
 
-    const paths = getAcccesiblePathForToken(
-      matrix[i][j].name,
-      matrix[i][j].type,
-      i,
-      j
-    );
-    paths.forEach((coordinates) => {
-      coordinates.forEach((coordinate: [number, number]) => {
-        const [x, y] = coordinate;
-        matrix[x][y].accessible = true;
-      });
-    });
+  const cellClickHandler = (i: number, j: number) => {
+    const cell = matrix[i][j];
+    if (pieceSelected.length == 0) {
+      clearSelection();
+
+      if (chance == cell.type && cell.name) {
+        setPieceSelected([i, j]);
+      }
+
+      showAccessiblePath(i, j);
+    } else if (pieceSelected[0] == i && pieceSelected[1] == j) {
+      clearSelection();
+    } else if (cell.accessible) {
+      const [preI, preJ] = pieceSelected;
+      if (matrix[preI][preJ].name == constatns.PAWN) {
+        matrix[preI][preJ].canGoTwoSteps = false;
+      }
+      matrix[i][j] = matrix[preI][preJ];
+      matrix[preI][preJ] = {};
+      setPieceSelected([]);
+      setChance(chance == constatns.TYPE.WHITE ? constatns.TYPE.BLACK:constatns.TYPE.WHITE)
+      clearSelection();
+    }
+
     setMatrix([...matrix]);
   };
 
