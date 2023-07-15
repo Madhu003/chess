@@ -48,12 +48,39 @@ export default function Home() {
         j
       );
 
-      paths.forEach((coordinates) => {
-        coordinates.forEach((coordinate: [number, number]) => {
-          const [x, y] = coordinate;
-          matrix[x][y].accessible = true;
-        });
-      });
+      if (cell.name == constatns.PAWN) {
+        for (let i = 0; i < paths.length; i++) {
+          const coordinates = paths[i];
+          for (let j = 0; j < coordinates.length; j++) {
+            const [x, y] = coordinates[j];
+            const interCell = matrix[x][y];
+            if (cell.wentGoTwoSteps && j == 1) {
+              break;
+            }
+            interCell.accessible = true;
+          }
+        }
+      } else if (cell.name == constatns.KNIGHT) {
+        for (let i = 0; i < paths.length; i++) {
+          const coordinates = paths[i];
+          for (let j = 0; j < coordinates.length; j++) {
+            const [x, y] = coordinates[j];
+            const cell = matrix[x][y];
+
+            cell.accessible = true;
+          }
+        }
+      } else {
+        for (let i = 0; i < paths.length; i++) {
+          const coordinates = paths[i];
+          for (let j = 0; j < coordinates.length; j++) {
+            const [x, y] = coordinates[j];
+            const cell = matrix[x][y];
+
+            cell.accessible = true;
+          }
+        }
+      }
     }
   };
 
@@ -81,12 +108,16 @@ export default function Home() {
     } else if (cell.accessible) {
       const [preI, preJ] = pieceSelected;
       if (matrix[preI][preJ].name == constatns.PAWN) {
-        matrix[preI][preJ].canGoTwoSteps = false;
+        matrix[preI][preJ].wentGoTwoSteps = true;
       }
       matrix[i][j] = matrix[preI][preJ];
       matrix[preI][preJ] = {};
       setPieceSelected([]);
-      setChance(chance == constatns.TYPE.WHITE ? constatns.TYPE.BLACK:constatns.TYPE.WHITE)
+      setChance(
+        chance == constatns.TYPE.WHITE
+          ? constatns.TYPE.BLACK
+          : constatns.TYPE.WHITE
+      );
       clearSelection();
     }
 
