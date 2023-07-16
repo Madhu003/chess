@@ -37,7 +37,7 @@ export default function Home() {
 
   const showAccessiblePath = (i: number, j: number) => {
     const cell = matrix[i][j];
-
+    debugger;
     if (cell.type == chance) {
       cell.selected = true;
 
@@ -54,8 +54,9 @@ export default function Home() {
           for (let j = 0; j < coordinates.length; j++) {
             const [x, y] = coordinates[j];
             const interCell = matrix[x][y];
-            if (cell.wentGoTwoSteps && j == 1) {
-              break;
+            debugger;
+            if ((cell.wentGoTwoSteps && j == 1) || interCell?.name) {
+              return;
             }
             interCell.accessible = true;
           }
@@ -70,14 +71,19 @@ export default function Home() {
             cell.accessible = true;
           }
         }
+      } else if (cell.name == constatns.KING) {
       } else {
         for (let i = 0; i < paths.length; i++) {
           const coordinates = paths[i];
-          for (let j = 0; j < coordinates.length; j++) {
+          for (let j = 1; j < coordinates.length; j++) {
             const [x, y] = coordinates[j];
             const cell = matrix[x][y];
-
-            cell.accessible = true;
+            
+            if (cell?.name) {
+              break;
+            } else {
+              cell.accessible = true;
+            }
           }
         }
       }
@@ -91,6 +97,7 @@ export default function Home() {
         cell.accessible = false;
       });
     });
+    setPieceSelected([]);
   };
 
   const cellClickHandler = (i: number, j: number) => {
@@ -105,6 +112,8 @@ export default function Home() {
       showAccessiblePath(i, j);
     } else if (pieceSelected[0] == i && pieceSelected[1] == j) {
       clearSelection();
+    } else if (cell.type == chance) {
+      clearSelection();
     } else if (cell.accessible) {
       const [preI, preJ] = pieceSelected;
       if (matrix[preI][preJ].name == constatns.PAWN) {
@@ -112,7 +121,7 @@ export default function Home() {
       }
       matrix[i][j] = matrix[preI][preJ];
       matrix[preI][preJ] = {};
-      setPieceSelected([]);
+
       setChance(
         chance == constatns.TYPE.WHITE
           ? constatns.TYPE.BLACK
@@ -125,7 +134,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-8">
       <table className="border-collapse border border-slate-400 board">
         <tbody>
           {matrix.map((row: any, i: number) => (
@@ -149,6 +158,7 @@ export default function Home() {
           ))}
         </tbody>
       </table>
+      <div className="mt-2">Chance: {chance}</div>
     </main>
   );
 }
