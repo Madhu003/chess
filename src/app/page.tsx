@@ -81,11 +81,13 @@ export default function Home() {
             const [x, y] = coordinates[j];
             const cell = matrix[x][y];
 
-            if (cell?.name && false) {
-              break;
-            } else {
-              cell.accessible = true;
-            }
+            cell.accessible = true;
+            // TODO: need to work on limit of accessible
+            // if (cell?.name && false) {
+            //   break;
+            // } else {
+            //   cell.accessible = true;
+            // }
           }
         }
       }
@@ -159,6 +161,22 @@ export default function Home() {
                     className="m-0 p-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                     dangerouslySetInnerHTML={{ __html: cell.unicode || "" }}
                   ></p>
+                  <p
+                    className={`m-0 p-0 absolute text-sm subpixel-antialiased  
+                    ${(i + j) % 2 == 0 ? "text-black" : "text-white"} 
+                    ${j == 0 ? "top-2 left-2" : ""} 
+                    `}
+                  >
+                    {j == 0 && 8 - i}
+                  </p>
+                  <p
+                    className={`m-0 p-0 absolute text-sm subpixel-antialiased  
+                    ${(i + j) % 2 == 0 ? "text-black" : "text-white"} 
+                    ${i == 7 ? "bottom-2 right-2" : ""} 
+                    `}
+                  >
+                    {i == 7 && String.fromCharCode(97 + j)}
+                  </p>
                 </td>
               ))}
             </tr>
