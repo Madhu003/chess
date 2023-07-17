@@ -1,6 +1,7 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { getAcccesiblePathForToken } from "../utils";
+
 import constatns from "./constants";
 
 const fullMatrix: any = new Array(8)
@@ -11,6 +12,7 @@ export default function Home() {
   const [matrix, setMatrix] = useState(fullMatrix);
   const [chance, setChance] = useState<string>(constatns.TYPE.BLACK);
   const [pieceSelected, setPieceSelected] = useState<any>([]);
+  const ref: any = useRef();
 
   useEffect(() => {
     matrix[0] = [...constatns.STARTINGPOSITIONS.BLACK];
@@ -75,11 +77,11 @@ export default function Home() {
       } else {
         for (let i = 0; i < paths.length; i++) {
           const coordinates = paths[i];
-          for (let j = 1; j < coordinates.length; j++) {
+          for (let j = 0; j < coordinates.length; j++) {
             const [x, y] = coordinates[j];
             const cell = matrix[x][y];
-            
-            if (cell?.name) {
+
+            if (cell?.name && false) {
               break;
             } else {
               cell.accessible = true;
@@ -98,6 +100,10 @@ export default function Home() {
       });
     });
     setPieceSelected([]);
+  };
+
+  const playTapAudio = () => {
+    ref?.current?.play();
   };
 
   const cellClickHandler = (i: number, j: number) => {
@@ -128,6 +134,7 @@ export default function Home() {
           : constatns.TYPE.WHITE
       );
       clearSelection();
+      playTapAudio();
     }
 
     setMatrix([...matrix]);
@@ -159,6 +166,10 @@ export default function Home() {
         </tbody>
       </table>
       <div className="mt-2">Chance: {chance}</div>
+      <audio src="./tap.mp3" ref={ref}>
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio>
     </main>
   );
 }
